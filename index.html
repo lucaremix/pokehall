@@ -41,23 +41,21 @@
         /* HEADER */
         header {
             text-align: center;
-            padding: 40px 0 30px; /* Padding ridotto leggermente sopra */
+            padding: 40px 0 30px;
         }
 
-        /* Stile per il contenitore del logo */
         header h1 {
             margin-bottom: 15px;
             display: flex;
             justify-content: center;
         }
 
-        /* Stile per l'immagine del logo */
         .logo-img {
-            max-width: 90%;    /* Responsive su mobile */
-            height: auto;      /* Mantiene le proporzioni */
-            max-height: 500px; /* Altezza massima su desktop per non esagerare */
+            max-width: 90%;
+            height: auto;
+            max-height: 500px;
             object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(255, 193, 7, 0.3)); /* Leggero bagliore dorato opzionale */
+            filter: drop-shadow(0 0 10px rgba(255, 193, 7, 0.3));
         }
 
         .subtitle {
@@ -73,7 +71,7 @@
             letter-spacing: 1px;
         }
 
-        /* SEZIONE STATISTICHE (SUMMARY) */
+        /* SEZIONE STATISTICHE */
         .stats-section {
             margin-bottom: 50px;
             margin-top: 30px;
@@ -120,7 +118,7 @@
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
         }
 
-        /* GRIGLIA RUN (HALL OF FAME) */
+        /* GRIGLIA RUN */
         .runs-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -298,18 +296,18 @@
         /* GRIGLIA POKEMON 3x2 */
         .pokemon-list {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 colonne fisse */
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
         }
 
         .pokemon-item {
-            position: relative; /* Per posizionare il livello */
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             background: rgba(255,255,255,0.05);
-            padding: 10px 5px 25px 5px; /* Padding bottom extra per il livello */
+            padding: 10px 5px 25px 5px;
             border-radius: 8px;
             border: 1px solid transparent;
         }
@@ -401,7 +399,7 @@
 
         <section class="stats-section">
             <div class="stats-grid" id="stats-container">
-                </div>
+            </div>
         </section>
 
         <div class="section-title" style="margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom:10px;">
@@ -409,14 +407,14 @@
         </div>
         
         <div class="runs-grid" id="runs-grid">
-            </div>
+        </div>
     </div>
 
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal()">&times;</button>
             <div id="modal-body">
-                </div>
+            </div>
         </div>
     </div>
 
@@ -431,6 +429,7 @@
         // ============================================
         // 1. DATABASE RUN
         // ============================================
+        // NOTA: I dexNumber NON devono mai avere lo zero davanti (es. scrivi 38, non 038)
         const runs = [
             {
                 id: 1,
@@ -451,14 +450,13 @@
                     Remecs: [
                         { name: "Gliscor", dexNumber: 472, level: 60, isMvp: false },
                         { name: "Serperior", dexNumber: 497, level: 61, isMvp: false },
-                        { name: "Ninetales", dexNumber: 038, level: 58, isMvp: false },
+                        { name: "Ninetales", dexNumber: 38, level: 58, isMvp: false }, // Corretto da 038 a 38
                         { name: "Walrein", dexNumber: 365, level: 60, isMvp: false },
                         { name: "Tyranitar", dexNumber: 248, level: 62, isMvp: false },
                         { name: "Toxicroak", dexNumber: 454, level: 57, isMvp: true }
                     ]
                 },
-                screenshots: [
-                ]
+                screenshots: []
             },
             {
                 id: 2,
@@ -531,7 +529,7 @@
                         { name: "", dexNumber: 1, level: 1, isMvp: false }
                     ],
                     Remecs: [
-                        { name: "Jok3rinho", dexNumber: 057, level: 35, isMvp: false },
+                        { name: "Jok3rinho", dexNumber: 57, level: 35, isMvp: false }, // Corretto da 057 a 57
                         { name: "Melman", dexNumber: 203, level: 32, isMvp: false },
                         { name: "Finalmente", dexNumber: 427, level: 2, isMvp: false },
                         { name: "8===D", dexNumber: 342, level: 34, isMvp: false },
@@ -561,7 +559,7 @@
                         { name: "Palkia", dexNumber: 493, level: 47, isMvp: false },
                         { name: "Ramsey", dexNumber: 306, level: 45, isMvp: false },
                         { name: "Cydonia", dexNumber: 398, level: 45, isMvp: false },
-                        { name: "Gastoldo", dexNumber: 094, level: 45, isMvp: false },
+                        { name: "Gastoldo", dexNumber: 94, level: 45, isMvp: false }, // Corretto da 094 a 94
                         { name: "Pippato", dexNumber: 400, level: 45, isMvp: false },
                         { name: "Mabululul", dexNumber: 219, level: 45, isMvp: true }
                     ]
@@ -585,7 +583,7 @@
                         { name: "", dexNumber: 1, level: 1, isMvp: false }
                     ],
                     Remecs: [
-                        { name: "Arbok", dexNumber: 024, level: 76, isMvp: true },
+                        { name: "Arbok", dexNumber: 24, level: 76, isMvp: true }, // Corretto da 024 a 24
                         { name: "Feraligatr", dexNumber: 160, level: 78, isMvp: false },
                         { name: "Decidueye", dexNumber: 724, level: 75, isMvp: false },
                         { name: "Noivern", dexNumber: 715, level: 76, isMvp: false },
@@ -640,10 +638,10 @@
                     ],
                     Remecs: [
                         { name: "Chimecho", dexNumber: 358, isMvp: false },
-                        { name: "Beedrill", dexNumber: 015, isMvp: true },
+                        { name: "Beedrill", dexNumber: 15, isMvp: true }, // Corretto da 015 a 15
                         { name: "Gastrodon", dexNumber: 423, isMvp: false },
-                        { name: "Golem", dexNumber: 076, isMvp: false },
-                        { name: "Cloyster", dexNumber: 091, isMvp: false },
+                        { name: "Golem", dexNumber: 76, isMvp: false }, // Corretto da 076 a 76
+                        { name: "Cloyster", dexNumber: 91, isMvp: false }, // Corretto da 091 a 91
                         { name: "Lumineon", dexNumber: 457, isMvp: false }
                     ]
                 },
@@ -693,12 +691,11 @@
             return `${d}/${m}/${y}`;
         }
 
-        // Trova il Pokemon MVP di un giocatore in una specifica run
         function getPlayerMvp(run, player) {
-            return run.teams[player].find(p => p.isMvp === true);
+            if (!run.teams[player]) return null;
+            return run.teams[player].find(p => p.isMvp === true) || run.teams[player][0];
         }
 
-        // Calcola il Pokémon più usato da un singolo giocatore
         function getMostUsedByPlayer(playerName) {
             const pokeCounts = {};
             const pokeDetails = {};
@@ -706,11 +703,16 @@
             runs.forEach(r => {
                 if(r.teams[playerName]) {
                     r.teams[playerName].forEach(pkmn => {
-                        if (!pokeCounts[pkmn.dexNumber]) {
-                            pokeCounts[pkmn.dexNumber] = 0;
-                            pokeDetails[pkmn.dexNumber] = pkmn;
+                        // Ignora i placeholder vuoti (dexNumber 1 senza nome o nome vuoto se vuoi essere preciso, 
+                        // qui assumo che dexNumber 1 usato come placeholder non conti se non ha nome reale, 
+                        // ma per sicurezza conto tutto ciò che ha un dex valido > 0)
+                        if(pkmn.dexNumber > 0) {
+                            if (!pokeCounts[pkmn.dexNumber]) {
+                                pokeCounts[pkmn.dexNumber] = 0;
+                                pokeDetails[pkmn.dexNumber] = pkmn;
+                            }
+                            pokeCounts[pkmn.dexNumber]++;
                         }
-                        pokeCounts[pkmn.dexNumber]++;
                     });
                 }
             });
@@ -776,6 +778,13 @@
                 const mvpCr = getPlayerMvp(run, "Cr");
                 const mvpRemecs = getPlayerMvp(run, "Remecs");
 
+                // Gestione sicurezza se mvp è null (es. placeholder)
+                const mvpCrImg = mvpCr ? getPokemonImageUrl(mvpCr.dexNumber) : "";
+                const mvpCrName = mvpCr ? mvpCr.name : "N/D";
+                
+                const mvpRemecsImg = mvpRemecs ? getPokemonImageUrl(mvpRemecs.dexNumber) : "";
+                const mvpRemecsName = mvpRemecs ? mvpRemecs.name : "N/D";
+
                 const cardHTML = `
                     <div class="run-card">
                         <div class="run-header">
@@ -788,17 +797,17 @@
                         <div class="run-body">
                             <div class="mvp-preview">
                                 <div class="mvp-mini-box">
-                                    <img src="${getPokemonImageUrl(mvpCr.dexNumber)}" alt="${mvpCr.name}">
+                                    <img src="${mvpCrImg}" alt="${mvpCrName}">
                                     <div class="mvp-mini-info">
                                         <span class="mvp-mini-label">MVP Cr</span>
-                                        <span class="mvp-mini-name">${mvpCr.name}</span>
+                                        <span class="mvp-mini-name">${mvpCrName}</span>
                                     </div>
                                 </div>
                                 <div class="mvp-mini-box">
-                                    <img src="${getPokemonImageUrl(mvpRemecs.dexNumber)}" alt="${mvpRemecs.name}">
+                                    <img src="${mvpRemecsImg}" alt="${mvpRemecsName}">
                                     <div class="mvp-mini-info">
                                         <span class="mvp-mini-label">MVP Remecs</span>
-                                        <span class="mvp-mini-name">${mvpRemecs.name}</span>
+                                        <span class="mvp-mini-name">${mvpRemecsName}</span>
                                     </div>
                                 </div>
                             </div>
@@ -821,20 +830,21 @@
             const modalOverlay = document.getElementById('modal-overlay');
             const modalBody = document.getElementById('modal-body');
 
-            // Costruzione HTML delle squadre
             let teamsHTML = "";
             PLAYERS.forEach(player => {
                 const team = run.teams[player];
                 
                 let pokemonsHTML = "";
-                // Costruisci i 6 box pokemon
                 team.forEach(pk => {
+                    // Controllo elegante per il livello: se c'è lo mostro, altrimenti stringa vuota
+                    const levelDisplay = pk.level ? `<span class="pokemon-lvl">Lvl. ${pk.level}</span>` : '';
+
                     pokemonsHTML += `
                         <div class="pokemon-item ${pk.isMvp ? 'is-mvp' : ''}">
                             ${pk.isMvp ? '<span class="mvp-star">★ MVP</span>' : ''}
                             <img src="${getPokemonImageUrl(pk.dexNumber)}" alt="${pk.name}" loading="lazy">
                             <span class="pokemon-name">${pk.name}</span>
-                            <span class="pokemon-lvl">Lvl. ${pk.level}</span>  <-- QUESTA RIGA DÀ PROBLEMI SE MANCA IL LIVELLO
+                            ${levelDisplay}
                         </div>
                     `;
                 });
@@ -849,7 +859,6 @@
                 `;
             });
 
-            // HTML Screenshots
             let screensHTML = "";
             if (run.screenshots && run.screenshots.length > 0) {
                 run.screenshots.forEach(url => {
@@ -859,7 +868,6 @@
                 screensHTML = "<p style='color:#666; font-size:0.8rem;'>Nessuno screenshot.</p>";
             }
 
-            // Note (se presenti)
             const notesHTML = run.notes ? `
                 <div class="run-notes">
                     <strong>📝 Note:</strong> ${run.notes}
@@ -905,7 +913,6 @@
             }
         });
 
-        // INIT
         document.addEventListener('DOMContentLoaded', () => {
             renderStats();
             renderRuns();
@@ -914,7 +921,3 @@
     </script>
 </body>
 </html>
-
-
-
-
