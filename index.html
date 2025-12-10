@@ -41,16 +41,23 @@
         /* HEADER */
         header {
             text-align: center;
-            padding: 60px 0 40px;
+            padding: 40px 0 30px; /* Padding ridotto leggermente sopra */
         }
 
-        h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--accent-gold);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+        /* Stile per il contenitore del logo */
+        header h1 {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Stile per l'immagine del logo */
+        .logo-img {
+            max-width: 90%;    /* Responsive su mobile */
+            height: auto;      /* Mantiene le proporzioni */
+            max-height: 180px; /* Altezza massima su desktop per non esagerare */
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255, 193, 7, 0.3)); /* Leggero bagliore dorato opzionale */
         }
 
         .subtitle {
@@ -69,6 +76,7 @@
         /* SEZIONE STATISTICHE (SUMMARY) */
         .stats-section {
             margin-bottom: 50px;
+            margin-top: 30px;
         }
 
         .stats-grid {
@@ -384,7 +392,9 @@
 
     <div class="container">
         <header>
-            <h1>PokéHall</h1>
+            <h1>
+                <img src="https://raw.githubusercontent.com/lucaremix/pokehall/main/images/pokehall_logo.png" alt="PokéHall Logo" class="logo-img">
+            </h1>
             <div class="subtitle">Hall of Fame delle nostre run Pokémon ROM & ROM Hack</div>
             <div class="trainers">Allenatori: Cr & Remecs</div>
         </header>
