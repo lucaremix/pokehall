@@ -8,21 +8,22 @@
     
     <style>
         /* * ==========================================
-         * CSS - STILE GRAFICO AVANZATO (DARK MODE)
+         * CSS - GLOBAL & THEME
          * ==========================================
          */
         :root {
             --bg-color: #0f0f13;
             --section-bg: #1a1a20;
             --card-bg: rgba(255, 255, 255, 0.03);
+            --card-hover: rgba(255, 255, 255, 0.06);
             --text-main: #f0f0f0;
             --text-muted: #888;
             --accent-gold: #ffd700;
             --accent-red: #ff4757;
             --accent-blue: #2ed573;
+            --accent-purple: #a55eea;
             --border-radius: 16px;
             --transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --glow: 0 0 20px rgba(255, 215, 0, 0.15);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,7 +40,7 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -47,346 +48,343 @@
         /* HEADER */
         header {
             text-align: center;
-            padding: 60px 0 40px;
+            padding: 50px 0 30px;
             animation: fadeInDown 1s ease-out;
         }
 
         .logo-img {
             max-width: 90%;
             height: auto;
-            max-height: 180px;
+            max-height: 160px;
             object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(255, 193, 7, 0.4));
+            filter: drop-shadow(0 0 15px rgba(255, 193, 7, 0.3));
             transition: transform 0.5s;
         }
-        
         .logo-img:hover { transform: scale(1.05) rotate(-2deg); }
 
-        .subtitle {
-            font-size: 1.4rem;
-            font-weight: 300;
-            margin-top: 10px;
-            color: var(--text-main);
-        }
+        .subtitle { font-size: 1.2rem; font-weight: 300; color: var(--text-main); letter-spacing: 1px; }
+        .trainers { color: var(--accent-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; margin-top: 5px; }
 
-        .trainers {
-            color: var(--accent-gold);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 5px;
-            font-size: 0.9rem;
-        }
-
-        /* STATS BAR */
-        .stats-section {
-            margin-bottom: 60px;
-            animation: fadeInUp 1s ease-out 0.3s backwards;
-        }
-
-        .stats-grid {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
+        /* * ==========================================
+         * NEW STATS DASHBOARD
+         * ==========================================
+         */
+        .stats-dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto auto; /* Two main rows */
             gap: 20px;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
         }
 
-        .stat-card {
-            background: linear-gradient(145deg, #232329, #16161a);
-            padding: 15px 25px;
-            border-radius: var(--border-radius);
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
-            min-width: 160px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            transition: var(--transition);
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-gold);
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #fff;
+        /* SEPARATOR DIVIDER STYLE */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+            margin: 60px auto;
+            width: 80%;
+            position: relative;
         }
         
-        .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .section-divider::after {
+            content: '▼';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-color);
+            padding: 0 10px;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.8rem;
+        }
 
-        .stat-img-mini { width: 40px; height: 40px; object-fit: contain; margin-top: 5px; }
-
-        /* =========================================
-           RUN SECTION - IL NUOVO LAYOUT
-           ========================================= */
-        
-        .run-entry {
+        /* Span adjustments for grid */
+        .stat-box {
             background: var(--section-bg);
-            border-radius: 24px;
-            margin-bottom: 80px;
-            padding: 0;
+            border-radius: var(--border-radius);
+            padding: 20px;
             border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             position: relative;
             overflow: hidden;
-            
-            /* Animation Setup */
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .stat-box:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.1); }
+
+        .stat-box.large { grid-column: span 2; }
+        .stat-box.full { grid-column: span 4; }
+
+        .stat-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            z-index: 2;
         }
 
-        .run-entry.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #fff;
+            z-index: 2;
+            line-height: 1;
         }
 
-        /* Barra colorata laterale decorativa */
-        .run-entry::before {
-            content: '';
+        /* 1. TOTAL RUNS & REGION */
+        .total-runs-bg {
             position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 6px;
-            background: linear-gradient(to bottom, var(--accent-gold), var(--accent-red));
+            font-size: 8rem;
+            opacity: 0.05;
+            right: -20px;
+            bottom: -30px;
+            font-weight: 900;
         }
 
-        .run-header {
-            padding: 30px;
-            background: linear-gradient(to right, rgba(0,0,0,0.4), transparent);
+        .region-badge {
+            background: linear-gradient(45deg, #232526, #414345);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--accent-gold);
+            margin-top: 5px;
+        }
+
+        /* 2. COMPLETION RATE (Circular) */
+        .progress-circle {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent-blue) 0%, rgba(255,255,255,0.1) 0%);
             display: flex;
             align-items: center;
-            gap: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+        .progress-circle::before {
+            content: '';
+            position: absolute;
+            width: 66px;
+            height: 66px;
+            background: var(--section-bg);
+            border-radius: 50%;
+        }
+        .progress-value {
             position: relative;
+            font-size: 1.2rem;
+            font-weight: 700;
         }
 
-        .game-icon-large {
-            width: 100px;
-            height: 80px;
+        /* 3. SHINY COUNTER */
+        .shiny-grid {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        .shiny-player { text-align: center; }
+        .shiny-count { font-size: 1.8rem; font-weight: 700; color: var(--accent-gold); }
+        .shiny-label { font-size: 0.7rem; color: #888; }
+        .shiny-icon-deco { font-size: 1.5rem; animation: pulse 2s infinite; }
+
+        /* 4. MAIN POKEMON REDESIGNED */
+        .main-poke-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            justify-content: space-around;
+        }
+        .main-poke-img {
+            width: 90px;
+            height: 90px;
             object-fit: contain;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
             transition: transform 0.3s;
         }
-        
-        .run-entry:hover .game-icon-large { transform: scale(1.1); }
-
-        .run-title-box h2 {
-            font-size: 1.8rem;
-            line-height: 1.2;
-            color: #fff;
+        .main-poke-img:hover { transform: scale(1.1); }
+        .main-poke-info { text-align: left; }
+        .main-poke-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
+        .main-poke-count { font-size: 0.8rem; color: var(--accent-blue); }
+        .player-tag { 
+            font-size: 0.65rem; 
+            padding: 3px 8px; 
+            border-radius: 4px; 
+            background: rgba(255,255,255,0.1); 
+            display: inline-block;
             margin-bottom: 5px;
         }
 
-        .run-meta {
-            display: inline-flex;
-            gap: 15px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+        /* 5. TYPING CHART */
+        .typing-container {
+            width: 100%;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .tab-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #888;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+            font-weight: 600;
+        }
+        .tab-btn.active {
+            background: var(--accent-gold);
+            color: #000;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        .type-bars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px 25px;
+        }
+
+        .type-row {
+            display: flex;
             align-items: center;
+            gap: 10px;
+        }
+        .type-icon-mini {
+            width: 30px; height: 30px; object-fit: contain;
+        }
+        .progress-track {
+            flex: 1;
+            height: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-blue);
+            border-radius: 4px;
+            width: 0; /* Animated later */
+            transition: width 1s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .type-pct {
+            font-size: 0.75rem;
+            color: #888;
+            width: 35px;
+            text-align: right;
         }
 
-        .run-date-badge {
-            background: rgba(255,255,255,0.08);
-            padding: 4px 10px;
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--accent-gold);
+        /* MEDIA QUERY DASHBOARD */
+        @media (max-width: 900px) {
+            .stats-dashboard { grid-template-columns: repeat(2, 1fr); }
+            .stat-box.full { grid-column: span 2; }
+            .stat-box.large { grid-column: span 2; }
+        }
+        @media (max-width: 600px) {
+            .stats-dashboard { grid-template-columns: 1fr; }
+            .stat-box, .stat-box.large, .stat-box.full { grid-column: span 1; }
+            .main-poke-card { flex-direction: column; text-align: center; }
+            .main-poke-info { text-align: center; }
         }
 
-        /* CONTENUTO RUN */
-        .run-content {
-            padding: 30px;
+
+        /* * ==========================================
+         * RUN SECTION (OLD STYLES - KEPT)
+         * ==========================================
+         */
+        .run-entry {
+            background: var(--section-bg);
+            border-radius: 24px;
+            margin-bottom: 60px;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: visible;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .run-entry.visible { opacity: 1; transform: translateY(0); }
+        .run-entry::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
+            background: linear-gradient(to bottom, var(--accent-gold), var(--accent-red));
+            border-radius: 24px 0 0 24px; z-index: 1;
         }
 
-        /* NOTE */
+        .run-header {
+            padding: 25px;
+            background: linear-gradient(to right, rgba(0,0,0,0.4), transparent);
+            display: flex; align-items: center; gap: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            flex-wrap: wrap;
+        }
+        .game-icon-large { width: 80px; height: 60px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
+        .run-title-box h2 { font-size: 1.5rem; line-height: 1.2; color: #fff; margin-bottom: 5px; }
+        .run-meta { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.8rem; color: var(--text-muted); align-items: center; }
+        .run-date-badge { background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); color: var(--accent-gold); }
+
+        .badges-container { display: inline-flex; gap: 6px; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 20px; align-items: center; }
+        .badge-icon { font-size: 1rem; line-height: 1; }
+        .badge-missing { filter: grayscale(100%) contrast(0.5); opacity: 0.3; }
+
+        .run-content { padding: 25px; }
         .run-notes {
             background: rgba(46, 213, 115, 0.05);
-            border-left: 4px solid var(--accent-blue);
-            padding: 15px 20px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 30px;
-            font-style: italic;
-            color: #ddd;
-            font-size: 1rem;
+            border-left: 3px solid var(--accent-blue);
+            padding: 12px 15px; border-radius: 0 6px 6px 0; margin-bottom: 25px;
+            font-style: italic; color: #ddd; font-size: 0.95rem;
         }
 
-        /* TEAMS DISPLAY VS STYLE */
-        .teams-versus-container {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 20px;
-            align-items: start;
-            margin-bottom: 30px;
-        }
-
+        .teams-versus-container { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: start; margin-bottom: 20px; }
         @media (max-width: 768px) {
             .teams-versus-container { grid-template-columns: 1fr; gap: 40px; }
             .vs-divider { transform: rotate(90deg); margin: 10px 0; }
         }
 
-        .player-block {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.03);
-            transition: var(--transition);
-        }
+        .player-block { background: var(--card-bg); border-radius: 12px; padding: 15px; padding-bottom: 25px; border: 1px solid rgba(255,255,255,0.03); transition: var(--transition); }
+        .player-block:hover { background: var(--card-hover); }
+        .player-name { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-gold); margin-bottom: 15px; text-align: center; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
 
-        .player-block:hover { background: rgba(255,255,255,0.06); }
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px 8px; }
 
-        .player-name {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent-gold);
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: 700;
-            border-bottom: 2px solid rgba(255,255,255,0.1);
-            padding-bottom: 10px;
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        /* POKEMON CARD */
         .poke-card {
-            position: relative;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            padding: 10px 5px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: var(--transition);
-            border: 1px solid transparent;
+            position: relative; background: rgba(0,0,0,0.2); border-radius: 8px;
+            padding: 8px 4px 16px 4px; display: flex; flex-direction: column;
+            align-items: center; text-align: center; transition: var(--transition); border: 1px solid transparent;
         }
-
-        .poke-card:hover {
-            transform: translateY(-3px) scale(1.05);
-            background: rgba(255,255,255,0.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 2;
-        }
-
-        .poke-card.mvp {
-            border-color: var(--accent-gold);
-            background: linear-gradient(to bottom, rgba(255, 193, 7, 0.05), transparent);
-            box-shadow: 0 0 10px rgba(255, 193, 7, 0.1);
-        }
-
-        .poke-img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
-        }
-
-        .poke-name {
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-top: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-        }
-
-        .lvl-badge {
-            position: absolute;
-            top: 2px;
-            right: 4px;
-            font-size: 0.6rem;
-            color: #aaa;
-            font-family: monospace;
-        }
-
-        .mvp-badge {
-            position: absolute;
-            top: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent-gold);
-            color: #000;
-            font-size: 0.6rem;
-            font-weight: 800;
-            padding: 2px 6px;
-            border-radius: 10px;
-            z-index: 5;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-
-        /* DIVISORE VS */
-        .vs-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: rgba(255,255,255,0.1);
-            font-style: italic;
-            height: 100%;
-        }
-
-        /* SCREENSHOTS */
-        .screenshots-container {
-            margin-top: 20px;
-        }
+        .poke-card:hover { transform: translateY(-3px) scale(1.05); background: rgba(255,255,255,0.05); z-index: 2; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .poke-card.mvp { border-color: var(--accent-gold); background: linear-gradient(to bottom, rgba(255, 193, 7, 0.05), transparent); }
         
-        .screenshots-title {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .poke-img { width: 60px; height: 60px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)); z-index: 1; }
+        .poke-name { font-size: 0.65rem; font-weight: 600; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; z-index: 1; }
         
-        .screenshots-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(255,255,255,0.1);
-        }
+        .lvl-badge { position: absolute; top: 2px; right: 4px; font-size: 0.55rem; color: #aaa; font-family: monospace; z-index: 5; }
+        .mvp-badge { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); background: var(--accent-gold); color: #000; font-size: 0.55rem; font-weight: 800; padding: 1px 5px; border-radius: 10px; z-index: 6; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .shiny-icon { position: absolute; top: 2px; left: 4px; font-size: 0.7rem; z-index: 5; text-shadow: 0 0 5px yellow; }
 
-        .screens-scroll {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            /* Custom Scrollbar */
-            scrollbar-width: thin;
-            scrollbar-color: #444 #222;
-        }
+        .poke-types { position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); display: flex; justify-content: center; gap: 2px; z-index: 10; width: 100%; }
+        .type-icon-img { width: 20px; height: 20px; border-radius: 50%; background: #1a1a20; border: 2px solid #1a1a20; object-fit: contain; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 
-        .screen-thumb {
-            height: 80px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.3s;
-            border: 2px solid transparent;
-            flex-shrink: 0;
-        }
+        .vs-divider { display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 900; color: rgba(255,255,255,0.1); font-style: italic; }
 
-        .screen-thumb:hover {
-            transform: scale(1.05);
-            border-color: #fff;
-        }
+        .screenshots-container { margin-top: 15px; }
+        .screenshots-title { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .screenshots-title::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+        .screens-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; scrollbar-color: #444 #222; }
+        .screen-thumb { height: 70px; border-radius: 6px; cursor: pointer; transition: 0.3s; border: 2px solid transparent; flex-shrink: 0; }
+        .screen-thumb:hover { transform: scale(1.05); border-color: #fff; }
 
-        /* ANIMAZIONI */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes pulse { 0% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0.6; transform: scale(1); } }
 
     </style>
 </head>
@@ -401,30 +399,130 @@
             <div class="trainers">Cr <span style="color:#666">vs</span> Remecs</div>
         </header>
 
-        <section class="stats-section" id="stats-container">
-            </section>
+        <div id="stats-dashboard-container"></div>
+        
+        <div class="section-divider"></div>
 
         <div id="runs-container"></div>
     </div>
 
     <script>
         /* * ==========================================
-         * JAVASCRIPT
+         * DATI & CONFIG
          * ==========================================
          */
-
         const PLAYERS = ["Cr", "Remecs"];
 
-        // ============================================
-        // 1. DATABASE RUN (Invariato)
-        // ============================================
+        const REGION_BADGES = {
+            "Kanto":  ["🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅"],
+            "Johto":  ["🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅"],
+            "Hoenn":  ["🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅"],
+            "Sinnoh": ["🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅"],
+            "Unova":  ["🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅"],
+            "Kalos":  ["🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅"],
+            "Alola":  ["🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅"],
+            "Galar":  ["🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅"],
+            "Custom Region": ["🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅"]
+        };
+
+        const TYPE_ICONS = {
+            "Normal": "https://archives.bulbagarden.net/media/upload/thumb/9/95/Normal_icon_SwSh.png/48px-Normal_icon_SwSh.png",
+            "Fighting": "https://archives.bulbagarden.net/media/upload/thumb/3/3b/Fighting_icon_SwSh.png/48px-Fighting_icon_SwSh.png",
+            "Flying": "https://archives.bulbagarden.net/media/upload/thumb/b/b5/Flying_icon_SwSh.png/48px-Flying_icon_SwSh.png",
+            "Poison": "https://archives.bulbagarden.net/media/upload/thumb/8/8d/Poison_icon_SwSh.png/48px-Poison_icon_SwSh.png",
+            "Ground": "https://archives.bulbagarden.net/media/upload/thumb/2/27/Ground_icon_SwSh.png/48px-Ground_icon_SwSh.png",
+            "Rock": "https://archives.bulbagarden.net/media/upload/thumb/1/11/Rock_icon_SwSh.png/48px-Rock_icon_SwSh.png",
+            "Bug": "https://archives.bulbagarden.net/media/upload/thumb/9/9c/Bug_icon_SwSh.png/48px-Bug_icon_SwSh.png",
+            "Ghost": "https://archives.bulbagarden.net/media/upload/thumb/0/01/Ghost_icon_SwSh.png/48px-Ghost_icon_SwSh.png",
+            "Fire": "https://archives.bulbagarden.net/media/upload/thumb/a/ab/Fire_icon_SwSh.png/48px-Fire_icon_SwSh.png",
+            "Water": "https://archives.bulbagarden.net/media/upload/thumb/8/80/Water_icon_SwSh.png/48px-Water_icon_SwSh.png",
+            "Grass": "https://archives.bulbagarden.net/media/upload/thumb/a/a8/Grass_icon_SwSh.png/48px-Grass_icon_SwSh.png",
+            "Electric": "https://archives.bulbagarden.net/media/upload/thumb/7/7b/Electric_icon_SwSh.png/48px-Electric_icon_SwSh.png",
+            "Psychic": "https://archives.bulbagarden.net/media/upload/thumb/7/73/Psychic_icon_SwSh.png/48px-Psychic_icon_SwSh.png",
+            "Ice": "https://archives.bulbagarden.net/media/upload/thumb/1/15/Ice_icon_SwSh.png/48px-Ice_icon_SwSh.png",
+            "Dragon": "https://archives.bulbagarden.net/media/upload/thumb/7/70/Dragon_icon_SwSh.png/48px-Dragon_icon_SwSh.png",
+            "Dark": "https://archives.bulbagarden.net/media/upload/thumb/d/d5/Dark_icon_SwSh.png/48px-Dark_icon_SwSh.png",
+            "Steel": "https://archives.bulbagarden.net/media/upload/thumb/0/09/Steel_icon_SwSh.png/48px-Steel_icon_SwSh.png",
+            "Fairy": "https://archives.bulbagarden.net/media/upload/thumb/c/c6/Fairy_icon_SwSh.png/48px-Fairy_icon_SwSh.png",
+            "Sound": "https://archives.bulbagarden.net/media/upload/thumb/8/83/DarkIC_NPSnap.png/48px-DarkIC_NPSnap.png"
+        };
+
+        const EMPTY_TEAM = [
+            { name: "", dexNumber: 0, level: 0, isMvp: false },
+            { name: "", dexNumber: 0, level: 0, isMvp: false },
+            { name: "", dexNumber: 0, level: 0, isMvp: false },
+            { name: "", dexNumber: 0, level: 0, isMvp: false },
+            { name: "", dexNumber: 0, level: 0, isMvp: false },
+            { name: "", dexNumber: 0, level: 0, isMvp: false }
+        ];
+
         const runs = [
             {
                 id: 1,
+                gameTitle: "Pokémon Xenoverse",
+                gameIconUrl: "https://static.wikia.nocookie.net/xenoverse-per-aspera-ad-astra/images/5/58/Xenoverse_Logo.png/revision/latest/scale-to-width-down/700?cb=20210102181125",
+                region: "Custom Region",
+                badgesObtained: 8,
+                startDate: "12/2020",
+                endDate: "01/2021",
+                notes: "IPERNOVAAAA",
+                teams: {
+                    Cr: [
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" }
+                    ],
+                    Remecs: [
+                        { name: "Shulong", dexNumber: 1, isMvp: true, type1: "Water", type2: "Dragon", image: "https://static.wikia.nocookie.net/xenoverse-per-aspera-ad-astra/images/5/5b/Shulong_Forma_Xenoverse_Sprite.png/revision/latest?cb=20210406181925" },
+                        { name: "Bremand", dexNumber: 1, isMvp: false, type1: "Sound", type2: "Fighting", image: "https://static.wikia.nocookie.net/xenoverse-per-aspera-ad-astra/images/5/53/Bremand_Percussionista_Sprite.png/revision/latest?cb=20210105130037" },
+                        { name: "Scovile", dexNumber: 1, isMvp: false, type1: "Fire", type2: "Grass", image: "https://static.wikia.nocookie.net/xenoverse-per-aspera-ad-astra/images/0/0a/Scovile_Sprite.png/revision/latest?cb=20210104231926" },
+                        { name: "Harrowk", dexNumber: 1, isMvp: false, type1: "Flying", type2: "Electric", image: "https://static.wikia.nocookie.net/xenoverse-per-aspera-ad-astra/images/d/df/Harrowk_Sprite.png/revision/latest?cb=20210104231357" },
+                        { name: "Mylomute", dexNumber: 1, isMvp: false, type1: "Normal", type2: "Ice", image: "https://static.wikia.nocookie.net/xenoverse-per-aspera-ad-astra/images/e/e4/Mylomute_Sprite.png/revision/latest?cb=20210104231722" },
+                        { name: "Troglolith", dexNumber: 1, isMvp: false, type1: "Normal", type2: "Rock", image: "https://static.wikia.nocookie.net/xenoverse-per-aspera-ad-astra/images/8/8e/Troglolith_Sprite.png/revision/latest?cb=20210104232101" }
+                    ]
+                },
+                screenshots: []
+            },
+            {
+                id: 2,
+                gameTitle: "Pokémon Insurgence",
+                gameIconUrl: "https://p-insurgence.com/assets/img/logo2.png",
+                region: "Custom Region",
+                badgesObtained: 8,
+                startDate: "20/09/2021",
+                endDate: "10/2021",
+                notes: "Wonder Trade di Cr con Remecs a scuola. Hydreigon GigaImpatto Velenoso. BlastoBowser. SGOZZAPRETI.",
+                teams: {
+                    Cr: [
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" }
+                    ],
+                    Remecs: [
+                        { name: "Delta Blastoise", dexNumber: 9, isMvp: false, type1: "Dark", type2: "Fighting", image: "https://wiki.p-insurgence.com/images/1/17/735s.png" },
+                        { name: "Delta Quagsire", dexNumber: 195, isMvp: false, type1: "Fire", type2: "Grass", image: "https://wiki.p-insurgence.com/images/2/21/774.png" },
+                        { name: "Delta Arcanine", dexNumber: 59, isMvp: true, type1: "Normal", type2: "Dragon", image: "https://wiki.p-insurgence.com/images/4/45/803.png" },
+                        { name: "Delta Ludicolo", dexNumber: 272, isMvp: false, type1: "Water", type2: "Psychic", image: "https://wiki.p-insurgence.com/images/b/bf/843.png" },
+                        { name: "Delta Hydreigon", dexNumber: 635, isMvp: false, type1: "Ground", type2: "Poison", image: "https://wiki.p-insurgence.com/images/7/7b/912.png" },
+                        { name: "Delta Gardevoir", dexNumber: 282, isMvp: false, type1: "Ice", type2: "Electric", image: "https://wiki.p-insurgence.com/images/c/c7/740.png" }
+                    ]
+                },
+                screenshots: []
+            },
+            {
+                id: 3,
                 gameTitle: "Pokémon Volt White - Bianca",
                 gameIconUrl: "https://github.com/lucaremix/roulette-run-challenge/blob/main/images/blaze-black-logo.webp?raw=true", 
-                startDate: "12-2021",
-                endDate: "20-12-2021",
+                region: "Unova",
+                badgesObtained: 6, 
+                startDate: "12/2021",
+                endDate: "20/12/2021",
                 notes: "Mai finita per colpa di Bianca l'imbattibile.",
                 teams: {
                     Cr: [
@@ -436,76 +534,218 @@
                         { name: "", dexNumber: 1, level: 1, isMvp: false }
                     ],
                     Remecs: [
-                        { name: "Gliscor", dexNumber: 472, level: 60, isMvp: false },
-                        { name: "Serperior", dexNumber: 497, level: 61, isMvp: false },
-                        { name: "Ninetales", dexNumber: 38, level: 58, isMvp: false },
-                        { name: "Walrein", dexNumber: 365, level: 60, isMvp: false },
-                        { name: "Tyranitar", dexNumber: 248, level: 62, isMvp: false },
-                        { name: "Toxicroak", dexNumber: 454, level: 57, isMvp: true }
-                    ]
-                },
-                screenshots: []
-            },
-            {
-                id: 2,
-                gameTitle: "Pokémon Renegade Platinum Monotype",
-                gameIconUrl: "https://img.nuzlocke.app/logos/platinum-logo.png",
-                startDate: "05-2023",
-                endDate: "28-05-2023",
-                notes: "Fullsweep di Chomp",
-                teams: {
-                    Cr: [
-                        { name: "", dexNumber: 1, level: 1, isMvp: false },
-                        { name: "", dexNumber: 1, level: 1, isMvp: false },
-                        { name: "", dexNumber: 1, level: 1, isMvp: false },
-                        { name: "", dexNumber: 1, level: 1, isMvp: false },
-                        { name: "", dexNumber: 1, level: 1, isMvp: false },
-                        { name: "", dexNumber: 1, level: 1, isMvp: false }
-                    ],
-                    Remecs: [
-                        { name: "Torterra", dexNumber: 389, isMvp: false },
-                        { name: "Groudon", dexNumber: 383, isMvp: false },
-                        { name: "Claydol", dexNumber: 344, isMvp: false },
-                        { name: "Garchomp", dexNumber: 445, isMvp: true },
-                        { name: "Swampert", dexNumber: 260, isMvp: false },
-                        { name: "Steelix", dexNumber: 208, isMvp: false }
-                    ]
-                },
-                screenshots: []
-            },
-            {
-                id: 3,
-                gameTitle: "Pokémon Blaze Black 2",
-                gameIconUrl: "https://img.nuzlocke.app/logos/blaze-black-volt-white-2-redux.png",
-                startDate: "10-2023",
-                endDate: "21-10-2023",
-                notes: "",
-                teams: {
-                    Cr: [
-                        { name: "", dexNumber: 1, level: 1, isMvp: false },
-                        { name: "", dexNumber: 1, level: 1, isMvp: false },
-                        { name: "", dexNumber: 1, level: 1, isMvp: false },
-                        { name: "", dexNumber: 1, level: 1, isMvp: false },
-                        { name: "", dexNumber: 1, level: 1, isMvp: false },
-                        { name: "", dexNumber: 1, level: 1, isMvp: false }
-                    ],
-                    Remecs: [
-                        { name: "Rampante", dexNumber: 409, level: 100, isMvp: true },
-                        { name: "Chicchi", dexNumber: 630, level: 81, isMvp: false },
-                        { name: "Lucia", dexNumber: 549, level: 80, isMvp: false },
-                        { name: "Yoghi", dexNumber: 217, level: 83, isMvp: false },
-                        { name: "Aborto", dexNumber: 637, level: 82, isMvp: false },
-                        { name: "Rasegan", dexNumber: 131, level: 80, isMvp: false }
+                        { name: "Gliscor", dexNumber: 472, level: 60, isMvp: false, type1: "Ground", type2: "Flying" },
+                        { name: "Serperior", dexNumber: 497, level: 61, isMvp: false, type1: "Grass", type2:"Dragon" },
+                        { name: "Ninetales", dexNumber: 38, level: 58, isMvp: false, type1: "Fire", type2:"Fairy" },
+                        { name: "Walrein", dexNumber: 365, level: 60, isMvp: false, type1: "Ice", type2: "Water" },
+                        { name: "Tyranitar", dexNumber: 248, level: 62, isMvp: false, type1: "Rock", type2: "Dark" },
+                        { name: "Toxicroak", dexNumber: 454, level: 57, isMvp: true, type1: "Poison", type2: "Fighting" }
                     ]
                 },
                 screenshots: []
             },
             {
                 id: 4,
+                gameTitle: "Pokémon Leggende Arceus",
+                gameIconUrl: "https://upload.wikimedia.org/wikipedia/commons/8/81/Pok%C3%A9mon_Legends_Arceus_Logo.png", 
+                region: "Sinnoh",
+                startDate: "1/02/2022",
+                endDate: "02/2021",
+                notes: "Mai terminata. Occhio di falco Cr e il suo Barboach.",
+                teams: {
+                    Cr: [
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" }
+                    ],
+                    Remecs: [
+                        { name: "Hisuian Decidueye", dexNumber: 724, isMvp: false, type1: "Grass", type2: "Fighting", image: "https://media.pokemoncentral.it/wiki/thumb/1/1a/Artwork0724H_LPA.png/600px-Artwork0724H_LPA.png?20240616191234" },
+                        { name: "Gastrodon", dexNumber: 423, isMvp: false, type1: "Water", type2: "Ground" },
+                        { name: "Hisuian Arcanine", dexNumber: 59, isMvp: false, type1: "Rock", type2: "Fire", image: "https://media.pokemoncentral.it/wiki/c/cd/Artwork0059H_LPA.png?20240616165819" },
+                        { name: "Ursaluna", dexNumber: 901, isMvp: false, type1: "Normal", type2: "Ground" },
+                        { name: "Gengar", dexNumber: 94, isMvp: false, type1: "Ghost", type2: "Poison", isShiny: true },
+                        { name: "Hisuian Goodra", dexNumber: 706, isMvp: false, type1: "Water", type2: "Steel", image: "https://media.pokemoncentral.it/wiki/f/f8/Artwork0706H_LPA.png?20220218150108" }
+                    ]
+                },
+                screenshots: [
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/arce1.jpeg",
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/arce2.jpeg",
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/arce3.jpeg"
+                ]
+            },
+            {
+                id: 5,
+                gameTitle: "Pokémon Infinity",
+                gameIconUrl: "https://static.wikia.nocookie.net/p-infinity/images/e/e6/Site-logo.png/revision/latest?cb=20240330035325",
+                region: "Custom Region",
+                badgesObtained: 5,
+                startDate: "04/2022",
+                endDate: "13/04/2022",
+                notes: "Sprite Esotici e il pozzo dei desideri",
+                teams: {
+                    Cr: [
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false }
+                    ],
+                    Remecs: [
+                        { name: "Alberico", dexNumber: 3, level: 63, isMvp: false,type1:"Grass",type2:"Rock", image: "https://static.wikia.nocookie.net/p-infinity/images/b/b0/003.png/revision/latest?cb=20220101085205"},
+                        { name: "Terrone", dexNumber: 1, level: 60, isMvp: false, type1:"Normal",type2:"Ground", image: "https://static.wikia.nocookie.net/p-infinity/images/c/cd/752.png/revision/latest?cb=20220103032639" },
+                        { name: "Padellaro", dexNumber: 272, level: 55, isMvp: true, type1:"Fire",type2:"Steel", image: "https://static.wikia.nocookie.net/p-infinity/images/1/17/767.png/revision/latest?cb=20220103031808"},
+                        { name: "WataWata", dexNumber: 22, level: 53, isMvp: false, type1:"Dark",type2:"Fighting", image: "https://static.wikia.nocookie.net/p-infinity/images/7/7c/754.png/revision/latest?cb=20220103032649" },
+                        { name: "DaFrog", dexNumber: 1, level: 51, isMvp: false, type1:"Water",type2:"Dark", image: "https://static.wikia.nocookie.net/p-infinity/images/b/b4/731.png/revision/latest?cb=20220103032518" },
+                        { name: "Lukaremecs", dexNumber: 1, level: 58, isMvp: false,type1:"Fairy",type2:"Dragon", image: "https://static.wikia.nocookie.net/p-infinity/images/0/09/722.png/revision/latest?cb=20251111171206" }
+                    ]
+                },
+                screenshots: [
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/infi1.jpeg",
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/infi2.jpeg",
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/infi3.jpeg",
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/infi4.jpeg"
+                ]
+            },
+            {
+                id: 6,
+                gameTitle: "Pokémon Renegade Platinum Monotype",
+                gameIconUrl: "https://img.nuzlocke.app/logos/platinum-logo.png",
+                region: "Sinnoh",
+                badgesObtained: 8,
+                startDate: "05/2023",
+                endDate: "28/05/2023",
+                notes: "Fullsweep di Chomp",
+                teams: {
+                    Cr: [
+                        { name: "Er Jolly", dexNumber: 466, level: 1, isMvp: true },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false }
+                    ],
+                    Remecs: [
+                        { name: "Torta", dexNumber: 389, level: 70, isMvp: false, type1: "Grass", type2: "Ground" },
+                        { name: "Don Grou", dexNumber: 383, level: 75, isMvp: false, type1: "Ground" },
+                        { name: "MarioTotem", dexNumber: 344, level: 70, isMvp: false, type1: "Ground", type2: "Psychic" },
+                        { name: "Chop", dexNumber: 445, level: 95, isMvp: true, type1: "Dragon", type2: "Ground" },
+                        { name: "Shrek", dexNumber: 260, level: 75, isMvp: false, type1: "Water", type2: "Ground" },
+                        { name: "Dildone", dexNumber: 208, level: 70, isMvp: false, type1: "Steel", type2: "Ground" }
+                    ]
+                },
+                screenshots: [
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/erjolly.jpeg",
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/monoterra.png",
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/renemono.jpeg",
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/renemono1.jpeg",
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/renemono2.jpeg"
+                ]
+            },
+            {
+                id: 7,
+                gameTitle: "Pokémon Blaze Black 2",
+                gameIconUrl: "https://img.nuzlocke.app/logos/blaze-black-volt-white-2-redux.png",
+                region: "Unova",
+                badgesObtained: 8,
+                startDate: "10/2023",
+                endDate: "21/10/2023",
+                notes: "Coppia uccellare del venerdì pomeriggio.",
+                teams: {
+                    Cr: [
+                        { name: "", dexNumber: 628, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false }
+                    ],
+                    Remecs: [
+                        { name: "Rampante", dexNumber: 409, level: 100, isMvp: true, type1: "Rock" },
+                        { name: "Chicchi", dexNumber: 630, level: 81, isMvp: false, type1: "Dark", type2: "Flying" },
+                        { name: "Lucia", dexNumber: 549, level: 80, isMvp: false, type1: "Grass" },
+                        { name: "Yoghi", dexNumber: 217, level: 83, isMvp: false, type1: "Normal", type2:"Ground" },
+                        { name: "Aborto", dexNumber: 637, level: 82, isMvp: false, type1: "Bug", type2: "Fire" },
+                        { name: "Rasegan", dexNumber: 131, level: 80, isMvp: false, type1: "Water", type2: "Ice" }
+                    ]
+                },
+                screenshots: [
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/bb2.png",
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/rampante.png"
+                ]
+            },
+            {
+                id: 8,
+                gameTitle: "Pokémon Sinking Sapphire Monotype",
+                gameIconUrl: "https://img.nuzlocke.app/logos/sinking-sapphire-logo@2.webp",
+                region: "Hoenn",
+                badgesObtained: 5,
+                startDate: "22/10/23",
+                endDate: "23/10/2023",
+                notes: "Monotype dai tipi esotici.",
+                teams: {
+                    Cr: [
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false }
+                    ],
+                    Remecs: [
+                        { name: "Pelota", dexNumber: 205, level: 46, isMvp: false, type1: "Bug", type2: "Steel" },
+                        { name: "MarioPaguro", dexNumber: 558, level: 49, isMvp: true, type1: "Bug", type2: "Rock" },
+                        { name: "Miles", dexNumber: 596, level: 46, isMvp: false, type1: "Bug", type2: "Electric" },
+                        { name: "Armaldo", dexNumber: 348, level: 44, isMvp: false, type1: "Bug", type2: "Rock" },
+                        { name: "La Bet", dexNumber: 649, level: 44, isMvp: false, type1: "Bug", type2: "Steel" },
+                        { name: "Sir Roland", dexNumber: 589, level: 45, isMvp: false, type1: "Bug", type2: "Steel" }
+                    ]
+                },
+                screenshots: []
+            },
+            {
+                id: 9,
+                gameTitle: "Pokémon X",
+                gameIconUrl: "https://img.nuzlocke.app/logos/x-logo@2.webp",
+                region: "Kalos",
+                badgesObtained: 4,
+                startDate: "11/2023",
+                endDate: "6/11/2023",
+                notes: "",
+                teams: {
+                    Cr: [
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" }
+                    ],
+                    Remecs: [
+                        { name: "Piroratto", dexNumber: 157, level: 36, isMvp: false, type1: "Fire"},
+                        { name: "Axel Blaze", dexNumber: 407, level: 32, isMvp: true, type1: "Grass", type2: "Poison" },
+                        { name: "Casper", dexNumber: 353, level: 353, isMvp: false, type1: "Ghost" },
+                        { name: "Cloyster", dexNumber: 91, level: 32, isMvp: false, type1: "Water", type2: "Dark" },
+                        { name: "Macchina", dexNumber: 552, level: 32, isMvp: false, type1: "Ground", type2: "Dark", isShiny: true },
+                        { name: "Ibra", dexNumber: 65, level: 32, isMvp: false, type1: "Psychic" }
+                    ]
+                },
+                screenshots: [
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/x.JPG",
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/x1.JPG"
+                ]
+            },
+            {
+                id: 10,
                 gameTitle: "Pokémon Sacred Gold Egglock",
                 gameIconUrl: "https://img.nuzlocke.app/logos/sacred-gold-logo.png",
-                startDate: "12-2023",
-                endDate: "13-12-2023",
+                region: "Johto",
+                badgesObtained: 2,
+                startDate: "12/2023",
+                endDate: "13/12/2023",
                 notes: "Solo 2 medaglie ottenute ma degna solo per MESMEREYES",
                 teams: {
                     Cr: [
@@ -517,22 +757,53 @@
                         { name: "", dexNumber: 1, level: 1, isMvp: false }
                     ],
                     Remecs: [
-                        { name: "Jok3rinho", dexNumber: 57, level: 35, isMvp: false },
-                        { name: "Melman", dexNumber: 203, level: 32, isMvp: false },
-                        { name: "Finalmente", dexNumber: 472, level: 2, isMvp: false },
-                        { name: "8===D", dexNumber: 342, level: 34, isMvp: false },
-                        { name: "Ligma", dexNumber: 218, level: 36, isMvp: false },
-                        { name: "Mesmereyes", dexNumber: 234, level: 31, isMvp: true }
+                        { name: "Jok3rinho", dexNumber: 57, level: 35, isMvp: false, type1: "Fighting" },
+                        { name: "Melman", dexNumber: 203, level: 32, isMvp: false, type1: "Normal", type2: "Psychic" },
+                        { name: "Finalmente", dexNumber: 472, level: 2, isMvp: false, type1: "Ground", type2: "Flying" },
+                        { name: "8===D", dexNumber: 342, level: 34, isMvp: false, type1: "Water", type2: "Dark" },
+                        { name: "Ligma", dexNumber: 218, level: 36, isMvp: false, type1: "Fire" },
+                        { name: "Mesmereyes", dexNumber: 234, level: 31, isMvp: true, type1: "Normal" }
                     ]
                 },
                 screenshots: []
             },
             {
-                id: 5,
+                id: 11,
+                gameTitle: "Pokémon Insurgence",
+                gameIconUrl: "https://p-insurgence.com/assets/img/logo2.png",
+                region: "Custom Region",
+                badgesObtained: 4,
+                startDate: "24/03/2024",
+                endDate: "28/03/2024",
+                notes: "WONDER TRADEEEE",
+                teams: {
+                    Cr: [
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "", image: "" }
+                    ],
+                    Remecs: [
+                        { name: "Petalosa", dexNumber: 549, level: 52, isMvp: false, type1: "Fairy", type2: "Flying", image: "https://wiki.p-insurgence.com/images/7/78/883.png" },
+                        { name: "Sunfiaaah", dexNumber: 192, level: 55, isMvp: false, type1: "Fire", type2: "Poison", image: "https://wiki.p-insurgence.com/images/3/3e/743.png" },
+                        { name: "A'Femme", dexNumber: 448, level: 54, isMvp: false, type1: "Ground", type2: "Dark", image: "https://wiki.p-insurgence.com/images/d/d4/874.png" },
+                        { name: "Jormungadr", dexNumber: 497, level: 55, isMvp: false, type1: "Water", type2: "Dragon", image: "https://wiki.p-insurgence.com/images/e/e4/793.png" },
+                        { name: "Il Colosso", dexNumber: 623, level: 55, isMvp: false, type1: "Fighting", type2: "Steel", image: "https://wiki.p-insurgence.com/images/a/aa/908.png" },
+                        { name: "Gardevoir", dexNumber: 282, level: 47, isMvp: false, type1: "Ice", type2: "Electric", image: "https://wiki.p-insurgence.com/images/c/c7/740.png" }
+                    ]
+                },
+                screenshots: []
+            },
+            {
+                id: 12,
                 gameTitle: "Pokémon Perla Randomizer",
                 gameIconUrl: "https://img.nuzlocke.app/logos/pearl-logo.png",
-                startDate: "05-2024",
-                endDate: "25-05-2024",
+                region: "Sinnoh",
+                badgesObtained: 7,
+                startDate: "05/2024",
+                endDate: "25/05/2024",
                 notes: "Honorable Mentions: Bulbo Bulbasaur, Z Formica Crobat",
                 teams: {
                     Cr: [
@@ -544,22 +815,24 @@
                         { name: "", dexNumber: 1, level: 1, isMvp: false }
                     ],
                     Remecs: [
-                        { name: "Palkia", dexNumber: 493, level: 47, isMvp: false },
-                        { name: "Ramsey", dexNumber: 306, level: 45, isMvp: false },
-                        { name: "Cydonia", dexNumber: 398, level: 45, isMvp: false },
-                        { name: "Gastoldo", dexNumber: 94, level: 45, isMvp: false },
-                        { name: "Pippato", dexNumber: 400, level: 45, isMvp: false },
-                        { name: "Mabululul", dexNumber: 219, level: 45, isMvp: true }
+                        { name: "Palkia", dexNumber: 493, level: 47, isMvp: false, type1: "Psychic" },
+                        { name: "Ramsey", dexNumber: 306, level: 45, isMvp: false, type1: "Steel", type2: "Rock" },
+                        { name: "Cydonia", dexNumber: 398, level: 45, isMvp: false, type1: "Normal", type2: "Flying" },
+                        { name: "Gastoldo", dexNumber: 94, level: 45, isMvp: false, type1: "Ghost", type2: "Poison" },
+                        { name: "Pippato", dexNumber: 400, level: 45, isMvp: false, type1: "Normal", type2: "Water" },
+                        { name: "Mabululul", dexNumber: 219, level: 45, isMvp: true, type1: "Fire", type2: "Rock" }
                     ]
                 },
                 screenshots: []
             },
             {
-                id: 6,
+                id: 13,
                 gameTitle: "Pokémon Moon Black",
                 gameIconUrl: "https://img.nuzlocke.app/logos/moon-logo.png",
-                startDate: "02-2025",
-                endDate: "05-03-2025",
+                region: "Unova",
+                badgesObtained: 8,
+                startDate: "02/2025",
+                endDate: "05/03/2025",
                 notes: "Arbork Terrone Broken e Feraligatr Shiny Elettrico. Decidueye bidone.",
                 teams: {
                     Cr: [
@@ -571,49 +844,87 @@
                         { name: "", dexNumber: 1, level: 1, isMvp: false }
                     ],
                     Remecs: [
-                        { name: "Arbok", dexNumber: 24, level: 76, isMvp: true },
-                        { name: "Feraligatr", dexNumber: 160, level: 78, isMvp: false },
-                        { name: "Decidueye", dexNumber: 724, level: 75, isMvp: false },
-                        { name: "Noivern", dexNumber: 715, level: 76, isMvp: false },
-                        { name: "Pyroar", dexNumber: 668, level: 76, isMvp: false },
-                        { name: "M-Gallade", dexNumber: 475, level: 80, isMvp: false }
+                        { name: "Arbok", dexNumber: 24, level: 76, isMvp: true, type1: "Poison", type2: "Ground" },
+                        { name: "Feraligatr", dexNumber: 160, level: 78, isMvp: false, type1: "Water", type2: "Electric", isShiny: true },
+                        { name: "Decidueye", dexNumber: 724, level: 75, isMvp: false, type1: "Grass", type2: "Ghost" },
+                        { name: "Noivern", dexNumber: 715, level: 76, isMvp: false, type1: "Flying", type2: "Dragon" },
+                        { name: "Pyroar", dexNumber: 668, level: 76, isMvp: false, type1: "Fire", type2: "Normal" },
+                        { name: "M-Gallade", dexNumber: 475, level: 80, isMvp: false, type1: "Psychic", type2: "Fighting", image: "https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/475_f2.png" }
                     ]
                 },
                 screenshots: []
             },
             {
-                id: 7,
-                gameTitle: "Sacred Gold Improved Monotype",
+                id: 14,
+                gameTitle: "Pokémon Luminescent Platinum",
+                gameIconUrl: "https://i.imgur.com/KocX3po.png",
+                region: "Sinnoh",
+                badgesObtained: 7,
+                startDate: "03/25",
+                endDate: "27/03/25",
+                notes: "In attesa di dati...",
+                teams: {
+                    Cr: [
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: "" },
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: ""},
+                        { name: "", dexNumber: 1, level: 1, isMvp: false, type1: "", type2: ""}
+                    ],
+                    Remecs: [
+                        { name: "Galarian Rapidash", dexNumber: 78, level: 51, isMvp: true, type1: "Fire", type2: "Fairy", image: "https://media.pokemoncentral.it/wiki/5/55/Artwork0078G_SpSc.png" },
+                        { name: "Hisuian Electrode", dexNumber: 101, level: 49, isMvp: false, type1: "Grass", type2: "Electric", image: "https://media.pokemoncentral.it/wiki/3/3c/Artwork0101H_LPA.png" },
+                        { name: "Flygon", dexNumber: 330, level: 45, isMvp: false, type1: "Bug", type2: "Dragon" },
+                        { name: "Gliscor", dexNumber: 472, level: 49, isMvp: false, type1: "Flying", type2: "Ground" },
+                        { name: "Sneasler", dexNumber: 903, level: 48, isMvp: false, type1: "Fighting", type2: "Poison"},
+                        { name: "Feraligatr", dexNumber: 160, level: 48, isMvp: false, type1: "Water", type2: "Dark"}
+                    ]
+                },
+                screenshots: [
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/lumi1.jpeg",
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/lumi2.jpeg"
+                ]
+            },
+            {
+                id: 15,
+                gameTitle: "Pokémon Sacred Gold Improved Monotype",
                 gameIconUrl: "https://img.nuzlocke.app/logos/sacred-gold-logo.png",
-                startDate: "05-2025",
-                endDate: "24-05-2025",
+                region: "Johto",
+                badgesObtained: 8,
+                startDate: "05/2025",
+                endDate: "24/05/2025",
                 notes: "Un nome. una garanzia: SUNFLORA dio del sole. Celebi introvabile.",
                 teams: {
                     Cr: [
-                        { name: "Rampardos", dexNumber: 409, level: 1, isMvp: false },
-                        { name: "Aggron", dexNumber: 306, level: 1, isMvp: false },
-                        { name: "Floatzel", dexNumber: 419, level: 1, isMvp: true },
-                        { name: "Staraptor", dexNumber: 398, level: 1, isMvp: false },
-                        { name: "Toxicroak", dexNumber: 454, level: 1, isMvp: false },
-                        { name: "Electivire", dexNumber: 466, level: 1, isMvp: false }
+                        { name: "Rampardos", dexNumber: 409, isMvp: false, type1: "Rock", type2: "Fighting" },
+                        { name: "Aggron", dexNumber: 306, isMvp: false, type1: "Steel", type2: "Fighting" },
+                        { name: "Floatzel", dexNumber: 419, isMvp: true, type1: "Water", type2: "Fighting" },
+                        { name: "Staraptor", dexNumber: 398, isMvp: false, type1: "Fighting", type2: "Flying" },
+                        { name: "Toxicroak", dexNumber: 454, isMvp: false, type1: "Ghost", type2: "Fighting" },
+                        { name: "Electivire", dexNumber: 466, isMvp: false, type1: "Electric", type2: "Fighting" }
                     ],
                     Remecs: [
-                        { name: "Hippowdon", dexNumber: 450, isMvp: false },
-                        { name: "Politoed", dexNumber: 186, isMvp: false },
-                        { name: "Sudowoodo", dexNumber: 185, isMvp: false },
-                        { name: "Pachirisu", dexNumber: 417, isMvp: false },
-                        { name: "Sunflora", dexNumber: 192, isMvp: true },
-                        { name: "Celebi", dexNumber: 251, isMvp: false }
+                        { name: "Hippowdon", dexNumber: 450, isMvp: false, type1: "Ground", type2: "Grass" },
+                        { name: "Politoed", dexNumber: 186, isMvp: false, type1: "Water", type2: "Grass" },
+                        { name: "Sudowoodo", dexNumber: 185, isMvp: false, type1: "Rock", type2: "Grass" },
+                        { name: "Pachirisu", dexNumber: 417, isMvp: false, type1: "Electric", type2: "Grass" },
+                        { name: "Sunflora", dexNumber: 192, isMvp: true, type1: "Grass", type2: "Fire" },
+                        { name: "Celebi", dexNumber: 251, isMvp: false, type1: "Flying", type2: "Grass" }
                     ]
                 },
-                screenshots: []
+                screenshots: [
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/boximprovedmono.jpeg"
+                ]
             },
             {
-                id: 8,
-                gameTitle: "Sacred Gold Improved",
+                id: 16,
+                gameTitle: "Pokémon Sacred Gold Improved",
                 gameIconUrl: "https://img.nuzlocke.app/logos/sacred-gold-logo.png",
-                startDate: "25-05-2025",
-                endDate: "30-05-2025",
+                region: "Johto",
+                badgesObtained: 8,
+                startDate: "25/05/2025",
+                endDate: "30/05/2025",
                 notes: "Beedrill assassino di Johto.",
                 teams: {
                     Cr: [
@@ -625,23 +936,56 @@
                         { name: "", dexNumber: 1, level: 1, isMvp: false }
                     ],
                     Remecs: [
-                        { name: "Chimecho", dexNumber: 358, isMvp: false },
-                        { name: "Beedrill", dexNumber: 15, isMvp: true }, 
-                        { name: "Gastrodon", dexNumber: 423, isMvp: false },
-                        { name: "Golem", dexNumber: 76, isMvp: false }, 
-                        { name: "Cloyster", dexNumber: 91, isMvp: false }, 
-                        { name: "Lumineon", dexNumber: 457, isMvp: false }
+                        { name: "Chimecho", dexNumber: 358, isMvp: false, type1: "Psychic", type2: "Flying" },
+                        { name: "Beedrill", dexNumber: 15, isMvp: true, type1: "Bug", type2: "Steel" }, 
+                        { name: "Gastrodon", dexNumber: 423, isMvp: false, type1: "Poison", type2: "Ground" },
+                        { name: "Golem", dexNumber: 76, isMvp: false, type1: "Rock", type2: "Fighting" }, 
+                        { name: "Cloyster", dexNumber: 91, isMvp: false, type1: "Dark", type2: "Ice" }, 
+                        { name: "Lumineon", dexNumber: 457, isMvp: false, type1: "Water", type2: "Electric" }
+                    ]
+                },
+                screenshots: [
+                    "https://raw.githubusercontent.com/lucaremix/pokehall/main/images/screenshots/improved.png"
+                ]
+            },
+            {
+                id: 17,
+                gameTitle: "Pokémon Blaze Black Roulette",
+                gameIconUrl: "https://github.com/lucaremix/roulette-run-challenge/blob/main/images/blaze-black-logo.webp?raw=true",
+                region: "Unova",
+                badgesObtained: 8,
+                startDate: "10/2025",
+                endDate: "26/10/2025",
+                notes: "Le grandi pullate. Quagoat hardcarry. Metagross e Raikou pippe vere. KlingKlang sculata abissale.",
+                teams: {
+                    Cr: [
+                        { name: "Proximus", dexNumber: 392, level: 77, isMvp: true, type1: "Fire", type2: "Fighting" },
+                        { name: "Antico", dexNumber: 601, level: 75, isMvp: false, type1: "Steel" },
+                        { name: "Almight", dexNumber: 149, level: 75, isMvp: false, type1: "Flying", type2: "Dragon" },
+                        { name: "Cavalla", dexNumber: 230, level: 75, isMvp: false, type1: "Water", type2: "Dragon" },
+                        { name: "Bolt", dexNumber: 243, level: 75, isMvp: false, type1: "Electric" },
+                        { name: "Porco", dexNumber: 500, level: 75, isMvp: false, type1: "Fire", type2: "Ground" }
+                    ],
+                    Remecs: [
+                        { name: "Electivire", dexNumber: 466, level: 76, isMvp: false, type1: "Electric", type2: "Fighting" },
+                        { name: "Archeops", dexNumber: 567, level: 75, isMvp: false, type1: "Rock", type2: "Flying" },
+                        { name: "Porygon-Z", dexNumber: 474, level: 75, isMvp: false, type1: "Normal" },
+                        { name: "Zoroark", dexNumber: 571, level: 75, isMvp: false, type1: "Dark" },
+                        { name: "Quagsire", dexNumber: 195, level: 75, isMvp: true, type1: "Water", type2: "Ground" },
+                        { name: "Metagross", dexNumber: 376, level: 75, isMvp: false, type1: "Steel", type2: "Psychic" }
                     ]
                 },
                 screenshots: []
             },
             {
-                id: 9,
-                gameTitle: "Pokémon Blaze Black Roulette",
-                gameIconUrl: "https://github.com/lucaremix/roulette-run-challenge/blob/main/images/blaze-black-logo.webp?raw=true",
-                startDate: "10-2025",
-                endDate: "26-10-2025",
-                notes: "Le grandi pullate. Quagoat hardcarry. Metagross pippa vera.",
+                id: 18,
+                gameTitle: "Pokémon Rising Ruby Roulette",
+                gameIconUrl: "https://github.com/lucaremix/roulette-run-challenge/blob/main/images/rising-ruby-logo.webp?raw=true",
+                region: "Hoenn",
+                badgesObtained: 6,
+                startDate: "27/10/2025",
+                endDate: "30/10/2025",
+                notes: "Team sun fallito da cr. e la sfida infinita di indovina Chi",
                 teams: {
                     Cr: [
                         { name: "", dexNumber: 1, level: 1, isMvp: false },
@@ -652,119 +996,296 @@
                         { name: "", dexNumber: 1, level: 1, isMvp: false }
                     ],
                     Remecs: [
-                        { name: "Electivire", dexNumber: 466, level: 76, isMvp: false },
-                        { name: "Archeops", dexNumber: 567, level: 75, isMvp: false },
-                        { name: "Porygon-Z", dexNumber: 474, level: 75, isMvp: false },
-                        { name: "Zoroark", dexNumber: 571, level: 75, isMvp: false },
-                        { name: "Quagsire", dexNumber: 195, level: 75, isMvp: true },
-                        { name: "Metagross", dexNumber: 376, level: 75, isMvp: false }
+                        { name: "Mite Mite", dexNumber: 462, level: 53, isMvp: false, type1: "Electric", type2: "Steel" },
+                        { name: "UomoLupo", dexNumber: 448, level: 55, isMvp: false, type1: "Fighting", type2: "Steel", isShiny: true },
+                        { name: "Metot", dexNumber: 178, level: 50, isMvp: false, type1: "Flying", type2: "Psychic" },
+                        { name: "Chat Noir", dexNumber: 477, level: 52, isMvp: false, type1: "Ghost" },
+                        { name: "Spritzingrilo", dexNumber: 683, level: 50, isMvp: true, type1: "Fairy" },
+                        { name: "Barou King", dexNumber: 230, level: 51, isMvp: false, type1: "Water", type2: "Dragon" }
                     ]
                 },
                 screenshots: []
             }
         ];
 
-        // ============================================
-        // 2. FUNZIONI UTILI
-        // ============================================
-        
-        function getPokemonImageUrl(dexNumber) {
-            const num = String(dexNumber).padStart(3, "0");
+        /* * ==========================================
+         * LOGICA DI CALCOLO
+         * ==========================================
+         */
+
+        function getPokemonImageUrl(pkOrDex) {
+            // Se l'argomento è un oggetto (il pokemon intero)
+            if (typeof pkOrDex === 'object' && pkOrDex !== null) {
+                // Controllo se esiste l'immagine custom
+                if (pkOrDex.image && pkOrDex.image.trim() !== "") {
+                    return pkOrDex.image;
+                }
+                // Fallback al dex number se l'oggetto ha dexNumber
+                if (pkOrDex.dexNumber) {
+                    const num = String(pkOrDex.dexNumber).padStart(3, "0");
+                    return `https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/${num}.png`;
+                }
+                return ""; // Nessuna immagine
+            }
+            
+            // Se l'argomento è solo un numero (fallback legacy per sicurezza)
+            const num = String(pkOrDex).padStart(3, "0");
             return `https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/${num}.png`;
         }
 
-        function getMostUsedByPlayer(playerName) {
-            const pokeCounts = {};
-            const pokeDetails = {};
+        function calculateStats() {
+            let totalRuns = 0; // Contiamo solo le run non vuote per le stats
+            let completedRuns = 0;
+            let regionCounts = {};
+            let shinyCounts = { "Cr": 0, "Remecs": 0 };
+            
+            // Structure: { Cr: { typeName: count }, Remecs: { ... } }
+            let typeUsage = { "Cr": {}, "Remecs": {} };
+            let totalTypes = { "Cr": 0, "Remecs": 0 };
 
-            runs.forEach(r => {
-                if(r.teams[playerName]) {
-                    r.teams[playerName].forEach(pkmn => {
-                        if(pkmn.dexNumber > 0 && pkmn.name !== "") {
-                            if (!pokeCounts[pkmn.dexNumber]) {
-                                pokeCounts[pkmn.dexNumber] = 0;
-                                pokeDetails[pkmn.dexNumber] = pkmn;
-                            }
-                            pokeCounts[pkmn.dexNumber]++;
-                        }
-                    });
+            // Most used tracking
+            const pokeCounts = { "Cr": {}, "Remecs": {} };
+            const pokeDetails = { "Cr": {}, "Remecs": {} };
+
+            runs.forEach(run => {
+                // Ignora SOLO le run marcate come vuote nel titolo
+                if (run.gameTitle.includes("Nuova Run")) return;
+                
+                totalRuns++;
+
+                // 1. Completion (>7 badges)
+                if (run.badgesObtained > 7) completedRuns++;
+
+                // 2. Region Dominance
+                if (run.region && run.region !== "Custom Region") {
+                    regionCounts[run.region] = (regionCounts[run.region] || 0) + 1;
                 }
+
+                // Loop Players
+                PLAYERS.forEach(player => {
+                    const team = run.teams[player];
+                    if (!team) return;
+
+                    team.forEach(pk => {
+                        // Skip empties & DEX 1 (Bulbasaur/Placeholder)
+                        if (!pk.dexNumber || pk.dexNumber < 1 || pk.dexNumber === 1) return;
+
+                        // Shiny
+                        if (pk.isShiny) shinyCounts[player]++;
+
+                        // Types
+                        [pk.type1, pk.type2].forEach(t => {
+                            if (t) {
+                                typeUsage[player][t] = (typeUsage[player][t] || 0) + 1;
+                                totalTypes[player]++;
+                            }
+                        });
+
+                        // Most Used
+                        const dex = pk.dexNumber;
+                        pokeCounts[player][dex] = (pokeCounts[player][dex] || 0) + 1;
+                        if (!pokeDetails[player][dex]) pokeDetails[player][dex] = pk;
+                    });
+                });
             });
 
-            let mostUsedDex = null;
-            let usageCount = 0;
-            for (const [dex, count] of Object.entries(pokeCounts)) {
-                if (count > usageCount) {
-                    usageCount = count;
-                    mostUsedDex = dex;
-                }
+            // Find Dominant Region
+            let domRegion = "-";
+            let maxCount = 0;
+            for (const [reg, c] of Object.entries(regionCounts)) {
+                if (c > maxCount) { maxCount = c; domRegion = reg; }
             }
-            return mostUsedDex ? { details: pokeDetails[mostUsedDex], count: usageCount } : null;
+
+            // Find Most Used
+            let mainPokes = {};
+            PLAYERS.forEach(player => {
+                let max = 0;
+                let bestDex = null;
+                for (const [dex, c] of Object.entries(pokeCounts[player])) {
+                    if (c > max) { max = c; bestDex = dex; }
+                }
+                mainPokes[player] = bestDex ? { ...pokeDetails[player][bestDex], count: max } : null;
+            });
+
+            return {
+                totalRuns,
+                completionRate: totalRuns > 0 ? Math.round((completedRuns / totalRuns) * 100) : 0,
+                domRegion,
+                shinyCounts,
+                mainPokes,
+                typeUsage,
+                totalTypes
+            };
         }
 
-        // ============================================
-        // 3. RENDER STATS (Invariato)
-        // ============================================
 
-        function renderStats() {
-            if (runs.length === 0) return;
+        /* * ==========================================
+         * RENDER FUNCTIONS
+         * ==========================================
+         */
 
-            const totalRuns = runs.length;
-            const mostRecent = [...runs].sort((a, b) => b.id - a.id)[0];
-            const mostUsedCr = getMostUsedByPlayer("Cr");
-            const mostUsedRemecs = getMostUsedByPlayer("Remecs");
+        function renderStatsDashboard() {
+            const data = calculateStats();
+            const container = document.getElementById('stats-dashboard-container');
 
-            const container = document.getElementById('stats-container');
+            // --- HTML BLOCKS ---
+            
+            // 1. Total & Region
+            const totalRunsHTML = `
+                <div class="stat-box">
+                    <div class="total-runs-bg">${data.totalRuns}</div>
+                    <div class="stat-title">Run Giocate</div>
+                    <div class="stat-number">${data.totalRuns}</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-title">Regione Preferita</div>
+                    <div class="stat-number" style="font-size:1.8rem;">${data.domRegion}</div>
+                    <div class="region-badge">Dominante</div>
+                </div>
+            `;
+
+            // 2. Completion Rate
+            const completionHTML = `
+                <div class="stat-box">
+                    <div class="stat-title">Tasso Completamento</div>
+                    <div class="progress-circle" style="background: conic-gradient(var(--accent-blue) ${data.completionRate}%, rgba(255,255,255,0.05) 0%);">
+                        <div class="progress-value">${data.completionRate}%</div>
+                    </div>
+                    <div class="shiny-label">Medaglie > 7</div>
+                </div>
+            `;
+
+            // 3. Shiny Counter
+            const shinyHTML = `
+                <div class="stat-box">
+                    <div class="stat-title">Shiny Totali ✨</div>
+                    <div class="shiny-grid">
+                        <div class="shiny-player">
+                            <div class="shiny-count">${data.shinyCounts.Cr}</div>
+                            <div class="shiny-label">Cr</div>
+                        </div>
+                        <div class="shiny-icon-deco">⚡</div>
+                        <div class="shiny-player">
+                            <div class="shiny-count">${data.shinyCounts.Remecs}</div>
+                            <div class="shiny-label">Remecs</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // 4. Main Pokemon (Large)
+            let mainPokeHTML = `<div class="stat-box large"><div class="stat-title">Main Pokémon</div><div class="main-poke-card">`;
+            PLAYERS.forEach(p => {
+                const poke = data.mainPokes[p];
+                if (poke) {
+                    mainPokeHTML += `
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <img src="${getPokemonImageUrl(poke)}" class="main-poke-img">
+                            <div class="main-poke-info">
+                                <span class="player-tag">${p}</span>
+                                <div class="main-poke-name">${poke.name || '???'}</div>
+                                <div class="main-poke-count">Usato ${poke.count} volte</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    mainPokeHTML += `<div><span class="player-tag">${p}</span> N/A</div>`;
+                }
+            });
+            mainPokeHTML += `</div></div>`;
+
+            // 5. Typing Usage (Full Width)
+            const typeStats = data.typeUsage;
+            const totals = data.totalTypes;
+            
+            // Function to generate bars
+            const getBarsHTML = (player) => {
+                // Convert to array and sort
+                let arr = [];
+                for (const [t, c] of Object.entries(typeStats[player])) {
+                    arr.push({ type: t, count: c, pct: totals[player] > 0 ? Math.round((c / totals[player]) * 100) : 0 });
+                }
+                arr.sort((a,b) => b.count - a.count);
+
+                return arr.map(item => `
+                    <div class="type-row">
+                        <img src="${TYPE_ICONS[item.type]}" class="type-icon-mini" title="${item.type}">
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width: ${item.pct}%;"></div>
+                        </div>
+                        <div class="type-pct">${item.pct}%</div>
+                    </div>
+                `).join('');
+            };
+
+            const typingHTML = `
+                <div class="stat-box full">
+                    <div class="stat-title">Analisi Tipi Utilizzati</div>
+                    <div class="typing-container">
+                        <div class="tabs">
+                            <button class="tab-btn active" onclick="switchTab('Cr')">Cr</button>
+                            <button class="tab-btn" onclick="switchTab('Remecs')">Remecs</button>
+                        </div>
+                        <div id="type-bars-Cr" class="type-bars-grid">
+                            ${getBarsHTML('Cr')}
+                        </div>
+                        <div id="type-bars-Remecs" class="type-bars-grid" style="display:none;">
+                            ${getBarsHTML('Remecs')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
             container.innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-value">${totalRuns}</div>
-                    <div class="stat-label">Run Totali</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" style="display:flex; flex-direction:column; align-items:center;">
-                        ${mostUsedCr ? `<img src="${getPokemonImageUrl(mostUsedCr.details.dexNumber)}" class="stat-img-mini">` : '-'}
-                    </div>
-                    <div class="stat-label">Main Cr</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" style="display:flex; flex-direction:column; align-items:center;">
-                        ${mostUsedRemecs ? `<img src="${getPokemonImageUrl(mostUsedRemecs.details.dexNumber)}" class="stat-img-mini">` : '-'}
-                    </div>
-                    <div class="stat-label">Main Remecs</div>
-                </div>
+                ${totalRunsHTML}
+                ${completionHTML}
+                ${shinyHTML}
+                ${mainPokeHTML}
+                ${typingHTML}
             `;
         }
 
-        // ============================================
-        // 4. RENDER NUOVO LAYOUT RUN (VERTICALE)
-        // ============================================
+        // Global function for Tabs
+        window.switchTab = function(player) {
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active');
+                if(b.innerText === player) b.classList.add('active');
+            });
+            
+            document.getElementById('type-bars-Cr').style.display = 'none';
+            document.getElementById('type-bars-Remecs').style.display = 'none';
+            
+            // Simple fade in logic could go here
+            document.getElementById(`type-bars-${player}`).style.display = 'grid';
+        };
 
+        // RENDER RUNS (Standard List)
         function renderRuns() {
             const container = document.getElementById('runs-container');
             container.innerHTML = "";
-            
-            // Ordina per ID decrescente (più recente in alto)
             const runsToShow = [...runs].sort((a, b) => b.id - a.id);
 
             runsToShow.forEach(run => {
-                
-                // Generazione HTML dei Team
                 let teamsHTML = "";
                 PLAYERS.forEach((player, index) => {
                     const team = run.teams[player];
                     let pokemonsHTML = "";
-
                     team.forEach(pk => {
                         const isMvpClass = pk.isMvp ? 'mvp' : '';
                         const mvpBadge = pk.isMvp ? '<div class="mvp-badge">MVP</div>' : '';
                         const lvlDisplay = pk.level ? `<span class="lvl-badge">Lv.${pk.level}</span>` : '';
+                        const shinyBadge = pk.isShiny ? '<div class="shiny-icon">✨</div>' : '';
+                        const typeIconsHTML = renderTypeIcons(pk.type1, pk.type2);
+
+                        // Immagine: usa la nuova funzione che accetta l'oggetto pk
+                        const imgSrc = getPokemonImageUrl(pk);
 
                         pokemonsHTML += `
                             <div class="poke-card ${isMvpClass}">
-                                ${mvpBadge}
-                                ${lvlDisplay}
-                                <img src="${getPokemonImageUrl(pk.dexNumber)}" class="poke-img" loading="lazy">
+                                ${mvpBadge} ${shinyBadge} ${lvlDisplay}
+                                <img src="${imgSrc}" class="poke-img" loading="lazy">
                                 <div class="poke-name">${pk.name || '-'}</div>
+                                ${typeIconsHTML}
                             </div>
                         `;
                     });
@@ -772,99 +1293,89 @@
                     teamsHTML += `
                         <div class="player-block">
                             <div class="player-name">${player}</div>
-                            <div class="team-grid">
-                                ${pokemonsHTML}
-                            </div>
+                            <div class="team-grid">${pokemonsHTML}</div>
                         </div>
                     `;
-
-                    // Aggiungi il divisore VS se siamo tra i due player
-                    if (index === 0) {
-                        teamsHTML += `<div class="vs-divider">VS</div>`;
-                    }
+                    if (index === 0) teamsHTML += `<div class="vs-divider">VS</div>`;
                 });
 
                 // Screenshots
                 let screensHTML = "";
                 if (run.screenshots && run.screenshots.length > 0) {
-                    run.screenshots.forEach(url => {
-                        screensHTML += `<img src="${url}" class="screen-thumb" onclick="window.open('${url}', '_blank')">`;
-                    });
+                    run.screenshots.forEach(url => screensHTML += `<img src="${url}" class="screen-thumb" onclick="window.open('${url}', '_blank')">`);
                 } else {
-                    screensHTML = "<span style='color:#555; font-size:0.8rem;'>Nessuno screenshot disponibile.</span>";
+                    screensHTML = "<span style='color:#555; font-size:0.75rem;'>Nessuno screenshot disponibile.</span>";
                 }
 
-                // Note
                 const notesHTML = run.notes ? `<div class="run-notes">"${run.notes}"</div>` : '';
+                const badgesHTML = renderBadges(run.region, run.badgesObtained);
 
-                // HTML COMPLETO DELLA SEZIONE RUN
-                const runSectionHTML = `
+                const html = `
                     <div class="run-entry">
                         <div class="run-header">
-                            <img src="${run.gameIconUrl}" class="game-icon-large" alt="Icon">
+                            <img src="${run.gameIconUrl}" class="game-icon-large" onerror="this.style.display='none'">
                             <div class="run-title-box">
                                 <h2>${run.gameTitle}</h2>
                                 <div class="run-meta">
                                     <span class="run-date-badge">📅 ${run.startDate} - ${run.endDate}</span>
                                     <span>#${run.id}</span>
+                                    ${badgesHTML}
                                 </div>
                             </div>
                         </div>
-
                         <div class="run-content">
                             ${notesHTML}
-                            
-                            <div class="teams-versus-container">
-                                ${teamsHTML}
-                            </div>
-
+                            <div class="teams-versus-container">${teamsHTML}</div>
                             <div class="screenshots-container">
                                 <div class="screenshots-title">📸 Galleria</div>
-                                <div class="screens-scroll">
-                                    ${screensHTML}
-                                </div>
+                                <div class="screens-scroll">${screensHTML}</div>
                             </div>
                         </div>
                     </div>
                 `;
-
-                container.innerHTML += runSectionHTML;
+                container.innerHTML += html;
             });
 
-            // Avvia l'observer dopo aver creato gli elementi
             observeRuns();
         }
 
-        // ============================================
-        // 5. INTERSECTION OBSERVER (Scroll Animation)
-        // ============================================
-        
-        function observeRuns() {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1 // 10% dell'elemento visibile trigghera l'animazione
-            };
+        function renderBadges(regionName, obtainedCount) {
+            if (!regionName || !REGION_BADGES[regionName]) return '';
+            const badges = REGION_BADGES[regionName];
+            let html = '<div class="badges-container" title="Medaglie: ' + obtainedCount + '">';
+            badges.forEach((icon, index) => {
+                const className = index < obtainedCount ? 'badge-icon' : 'badge-icon badge-missing';
+                html += `<span class="${className}">${icon}</span>`;
+            });
+            html += '</div>';
+            return html;
+        }
 
-            const observer = new IntersectionObserver((entries, observer) => {
+        function renderTypeIcons(type1, type2) {
+            if (!type1) return '';
+            let html = '<div class="poke-types">';
+            if (TYPE_ICONS[type1]) html += `<img src="${TYPE_ICONS[type1]}" class="type-icon-img">`;
+            if (type2 && TYPE_ICONS[type2]) html += `<img src="${TYPE_ICONS[type2]}" class="type-icon-img">`;
+            html += '</div>';
+            return html;
+        }
+
+        function observeRuns() {
+            const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); // Ferma l'osservazione una volta animato
+                        obs.unobserve(entry.target);
                     }
                 });
-            }, observerOptions);
-
-            const runEntries = document.querySelectorAll('.run-entry');
-            runEntries.forEach(el => observer.observe(el));
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.run-entry').forEach(el => observer.observe(el));
         }
 
-        // Init
         document.addEventListener('DOMContentLoaded', () => {
-            renderStats();
+            renderStatsDashboard();
             renderRuns();
         });
-
     </script>
 </body>
 </html>
